@@ -11,7 +11,7 @@ config = {
     'download_url': '',
     'author_email': 'cezar@spothero.com',
     'version': '0.1',
-    'install_requires': ['nose','requests'],
+    'install_requires': ['nose', 'requests<2', 'anyjson'],
     'packages': ['pygmatrix'],
     'scripts': [],
     'name': 'pygmatrix'
