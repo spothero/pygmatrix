@@ -69,9 +69,25 @@ class PyGMatrix(object):
                 sub_response_bottom = self.get_distances(origins=origins[len(origins)/2:], destinations=destinations,
                                                          sensor=sensor, **kwargs)
 
+                if not isinstance(sub_response_top, dict):
+                    # There was a request error.
+                    return sub_response_top
+
+                if not isinstance(sub_response_bottom, dict):
+                    # There was a request error.
+                    return sub_response_bottom
+
                 # Combine them
                 response = sub_response_top
                 response['rows'] += sub_response_bottom['rows']
+                response['origin_addresses'] += sub_response_bottom['origin_addresses']
+
+                if 'statuses' not in response.keys():
+                    response['statuses'] = [sub_response_bottom['status']]
+                else:
+                    response['statuses'].append(sub_response_bottom['status'])
+
+
             else:
                 # Start dividing on destinations
                 sub_response_left = self.get_distances(origins=origins, destinations=destinations[:len(destinations)/2],
@@ -79,11 +95,25 @@ class PyGMatrix(object):
                 sub_response_right = self.get_distances(origins=origins, destinations=destinations[len(destinations)/2:],
                                                         sensor=sensor, **kwargs)
 
+                if not isinstance(sub_response_left, dict):
+                    # There was a request error.
+                    return sub_response_left
+
+                if not isinstance(sub_response_right, dict):
+                    # There was a request error.
+                    return sub_response_right
+
                 # Combine them
                 response = sub_response_left
                 row_index = 0
                 for row in sub_response_right['rows']:
                     response['rows'][row_index]['elements'] += sub_response_right['rows'][row_index]['elements']
+                response['destination_addresses'] += sub_response_right['destination_addresses']
+
+                if 'statuses' not in response.keys():
+                    response['statuses'] = [sub_response_right['status']]
+                else:
+                    response['statuses'].append(sub_response_right['status'])
 
             return response
 
