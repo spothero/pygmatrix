@@ -7,8 +7,8 @@ except ImportError:
 config = {
     'description': 'PyGMatrix',
     'author': 'SpotHero',
-    'url': '',
-    'download_url': '',
+    'url': 'https://github.com/spothero/pygmatrix',
+    'download_url': 'https://github.com/spothero/pygmatrix/tarball/0.1',
     'author_email': 'cezar@spothero.com',
     'version': '0.1',
     'install_requires': ['nose', 'requests<2', 'anyjson'],
